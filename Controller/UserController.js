@@ -121,6 +121,13 @@ class UserController {
                     }
                 ]
             });
+
+            searchResults.forEach(search => {
+                if (search.image) {
+                    search.image = `${process.env.URL}/${search.image}`;
+                }
+            });
+
             res.status(200).json({ status: 'success', message: 'Search results retrieved successfully.', data: searchResults });
         } catch (error) {
             res.status(500).json({ status: 'error', message: 'Error searching for users.', error: error.message });
