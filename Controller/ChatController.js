@@ -67,11 +67,12 @@ class ChatController {
                 // Prepend process.env.URL to each message.image URL
                 messages.forEach(message => {
                     ['receiver', 'sender'].forEach(role => {
-                        if (message[role]?.image) {
+                        if (message[role]?.image && !message[role].image.startsWith('http://') && !message[role].image.startsWith('https://')) {
                             message[role].image = `${process.env.URL}/${message[role].image}`;
                         }
                     });
                 });
+
                 res.status(201).json({ status: 'success', message: 'Messages Get', data: { messages, token: decoded.userId } });
             } catch (error) {
                 res.status(500).json({ message: 'Error getting messages.' });
